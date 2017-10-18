@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,11 +17,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
+
+		initRealmDatabase()
 		
 		let center = UNUserNotificationCenter.current()
 		center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
 		}
+		
 		return true
+	}
+	
+	func initRealmDatabase() {
+		let category: Category = Category()
+		let realm = try! Realm()
+		try! realm.write {
+			category.name = "未選択"
+			realm.add(category, update: true)
+		}
 	}
 	
 	// アプリがフォアグラウンドの時に通知を受け取ると呼ばれるメソッド

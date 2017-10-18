@@ -50,7 +50,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 		formatter.dateFormat = "yyyy-MM-dd HH:mm"
 		let dateString: String = formatter.string(from: task.date as Date)
 		
-		cell.detailTextLabel?.text = "\(dateString) カテゴリー:\(task.category)"
+		cell.detailTextLabel?.text = dateString
 		
 		return cell
 	}

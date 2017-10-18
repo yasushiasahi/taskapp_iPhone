@@ -4,10 +4,10 @@ import UserNotifications
 
 class InputViewController: UIViewController {
 	
-	@IBOutlet weak var categoryTextField: UITextField!
 	@IBOutlet weak var titleTextField: UITextField!
 	@IBOutlet weak var contentsTextView: UITextView!
 	@IBOutlet weak var datePicker: UIDatePicker!
+	@IBOutlet weak var categorylabel: UILabel!
 	
 	var task: Task!
 	let realm = try! Realm()
@@ -18,7 +18,6 @@ class InputViewController: UIViewController {
 		
 		// 背景をタップしたらdismissKeyboardメソッドを呼ぶように設定する
 //		let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-		categoryTextField.text = task.category
 		titleTextField.text = task.title
 		contentsTextView.text = task.contents
 		datePicker.date = task.date as Date
@@ -37,7 +36,6 @@ class InputViewController: UIViewController {
 	override func viewWillDisappear(_ animated: Bool) {
 		try! realm.write {
 			
-			self.task.category = self.categoryTextField.text!
 			self.task.title = self.titleTextField.text!
 			self.task.contents = self.contentsTextView.text
 			self.task.date = datePicker.date as NSDate
@@ -80,6 +78,11 @@ class InputViewController: UIViewController {
 			}
 		}
 		
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		let categoryViewController: CategoryViewController = segue.destination as! CategoryViewController
+			categoryViewController.task = self.task
 	}
 
 }

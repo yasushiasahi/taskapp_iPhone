@@ -1,20 +1,11 @@
 import RealmSwift
 
-class Task: Object {
+class Category: Object {
 	// 管理用 ID。プライマリーキー
 	dynamic var id = 0
 	
 	// タイトル
-	dynamic var title = ""
-	
-	// 内容
-	dynamic var contents = ""
-	
-	/// 日時
-	dynamic var date = NSDate()
-	
-	// カテゴリー
-	dynamic var categoryId: Int = 0
+	dynamic var name = ""
 	
 	/**
 	id をプライマリーキーとして設定
