@@ -4,6 +4,7 @@ import UserNotifications
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	@IBOutlet weak var tableView: UITableView!
+	@IBOutlet weak var textField: UITextField!
 	
 	// Realmインスタンスを取得する
 	let realm = try! Realm()
@@ -47,9 +48,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 		
 		let formatter = DateFormatter()
 		formatter.dateFormat = "yyyy-MM-dd HH:mm"
-		
 		let dateString: String = formatter.string(from: task.date as Date)
-		cell.detailTextLabel?.text = dateString
+		
+		cell.detailTextLabel?.text = "\(dateString) カテゴリー:\(task.category)"
 		
 		return cell
 	}
@@ -122,6 +123,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 		tableView.reloadData()
 	}
 	
+	@IBAction func filterButton(_ sender: Any) {
+		taskArray = try! Realm().objects(Task.self).filter("category = '\(textField.text!)'").sorted(byKeyPath: "date",ascending: false)
+		tableView.reloadData()
+	}
+
+	@IBAction func unfilterButton(_ sender: Any) {
+		taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date",
+		                                                       ascending: false)
+		tableView.reloadData()
+	}
 	
 }
 
