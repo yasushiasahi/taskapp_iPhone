@@ -4,13 +4,13 @@ import UserNotifications
 
 class InputViewController: UIViewController {
 	
+	@IBOutlet weak var categoryLabel: UILabel!
 	@IBOutlet weak var titleTextField: UITextField!
 	@IBOutlet weak var contentsTextView: UITextView!
 	@IBOutlet weak var datePicker: UIDatePicker!
-	@IBOutlet weak var categorylabel: UILabel!
 	
-	var task: Task!
 	let realm = try! Realm()
+	var task: Task!
 	
 
     override func viewDidLoad() {
@@ -18,6 +18,13 @@ class InputViewController: UIViewController {
 		
 		// 背景をタップしたらdismissKeyboardメソッドを呼ぶように設定する
 //		let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+		
+//		if let category = realm.object(ofType: Category.self, forPrimaryKey: "0") {
+//			categoryLabel.text = category.name
+//		}
+		
+		let categoryArray = try! Realm().objects(Category.self).filter("id = \(task.categoryId)")
+		categoryLabel.text = categoryArray[0].name
 		titleTextField.text = task.title
 		contentsTextView.text = task.contents
 		datePicker.date = task.date as Date

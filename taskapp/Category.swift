@@ -4,7 +4,7 @@ class Category: Object {
 	// 管理用 ID。プライマリーキー
 	dynamic var id = 0
 	
-	// タイトル
+	// 名前
 	dynamic var name = ""
 	
 	/**

@@ -8,7 +8,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	var task: Task!
 	let realm = try! Realm()
 	
-	var categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "name",
+	var categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "id",
 	                                                               ascending: false)
 
     override func viewDidLoad() {
@@ -17,6 +17,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 		
 		tableView.delegate = self
 		tableView.dataSource = self
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,6 +46,10 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	// 各セルを選択した時に実行されるメソッド
 	func tableView(_ tableView: UITableView,
 	               didSelectRowAt indexPath: IndexPath){
+		
+		try! realm.write {
+			self.task.categoryId = self.categoryArray[indexPath.row].id
+		}
 	}
 	
 	// セルが削除が可能なことを伝えるメソッド
