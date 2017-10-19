@@ -10,49 +10,75 @@ class InputViewController: UIViewController {
 	@IBOutlet weak var datePicker: UIDatePicker!
 	
 	let realm = try! Realm()
-	var task: Task!
+	var provTask: [String : Any] = [:]
 	
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		// 背景をタップしたらdismissKeyboardメソッドを呼ぶように設定する
-//		let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+		let _: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
 		
-//		if let category = realm.object(ofType: Category.self, forPrimaryKey: "0") {
-//			categoryLabel.text = category.name
-//		}
+		print("========================================================")
+		print(provTask["id"] as! Int)
+		print(provTask["categoryId"] as! Int)
+		print(provTask["title"] as? String)
+		print(provTask["contents"] as? String)
+		print(provTask["date"] as! Date)
+		print("========================================================")
 		
-		let categoryArray = try! Realm().objects(Category.self).filter("id = \(task.categoryId)")
-		categoryLabel.text = categoryArray[0].name
-		titleTextField.text = task.title
-		contentsTextView.text = task.contents
-		datePicker.date = task.date as Date
+		categoryLabel.text = getCategoryName(categoryId: provTask["categoryId"] as! Int)
+		titleTextField.text = provTask["title"] as? String
+		contentsTextView.text = provTask["contents"] as? String
+		datePicker.date = provTask["date"] as! Date
     }
 
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+	
 	
 	func dismissKeyboard() {
 		// キーボードを閉じる
 		view.endEditing(true)
 	}
 	
-	override func viewWillDisappear(_ animated: Bool) {
-		try! realm.write {
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "createSegue" {
+			let task: Task = Task()
+
+			task.id = provTask["id"] as! Int
+			task.categoryId = provTask["categoryId"] as! Int
 			
-			self.task.title = self.titleTextField.text!
-			self.task.contents = self.contentsTextView.text
-			self.task.date = datePicker.date as NSDate
-			self.realm.add(self.task, update: true)
+			task.title = self.titleTextField.text!
+			task.contents = self.contentsTextView.text
+			task.date = self.datePicker.date as NSDate
+			
+			try! realm.write {
+				realm.add(task, update: true)
+			}
+			setNotification(task: task)
+		} else if segue.identifier == "chooseCategorySegue" {
+			provTask["title"] = self.titleTextField.text!
+			provTask["contents"] = self.contentsTextView.text
+			provTask["date"] = self.datePicker.date as NSDate
+			
+			let categoryViewController: CategoryViewController = segue.destination as! CategoryViewController
+			categoryViewController.provTask = provTask
 		}
-		
-		setNotification(task: task)
-		
-		super.viewWillDisappear(animated)
 	}
+	
+	@IBAction func cutegoryButton(_ sender: Any) {
+		performSegue(withIdentifier: "chooseCategorySegue", sender: nil)
+	}
+	
+	@IBAction func makeButton(_ sender: Any) {
+		performSegue(withIdentifier: "createSegue", sender: nil)
+	}
+	
 	
 	// タスクのローカル通知を登録する
 	func setNotification(task: Task) {
@@ -61,7 +87,7 @@ class InputViewController: UIViewController {
 		content.body = task.contents
 		content.sound = UNNotificationSound.default()
 		
-		 // ローカル通知が発動するtrigger（日付マッチ）を作成
+		// ローカル通知が発動するtrigger（日付マッチ）を作成
 		let calender = NSCalendar.current
 		let dateComponents = calender.dateComponents([.year, .month, .day, .hour, .minute],
 		                                             from: task.date as Date)
@@ -87,9 +113,9 @@ class InputViewController: UIViewController {
 		
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		let categoryViewController: CategoryViewController = segue.destination as! CategoryViewController
-			categoryViewController.task = self.task
+	
+	func getCategoryName(categoryId: Int) -> String {
+		return self.realm.objects(Category.self).filter("id = \(categoryId)")[0].name
 	}
-
+	
 }

@@ -2,9 +2,9 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate {
 	@IBOutlet weak var tableView: UITableView!
-	@IBOutlet weak var textField: UITextField!
+	@IBOutlet weak var pickerView: UIPickerView!
 	
 	// Realmインスタンスを取得する
 	let realm = try! Realm()
@@ -15,12 +15,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 	var taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date",
 	                                                       ascending: false)
 	
+	var categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "id",
+	                                                               ascending: true)
+	var filterdTaskArray = try! Realm().objects(Task.self).filter("categoryId = 0")
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
 		tableView.delegate = self
 		tableView.dataSource = self
+		pickerView.delegate = self
+		pickerView.dataSource = self
 		
 	}
 
@@ -51,7 +57,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 		formatter.dateFormat = "yyyy-MM-dd HH:mm"
 		let dateString: String = formatter.string(from: task.date as Date)
 		
-		cell.detailTextLabel?.text = dateString
+		let category = try! Realm().objects(Category.self).filter("id = \(task.categoryId)")[0]
+		
+		cell.detailTextLabel?.text = "\(dateString)  \(category.name)"
 		
 		return cell
 	}
@@ -102,20 +110,70 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 		}
 	}
 	
+	
+	// UIPickerViewの列の数
+	func numberOfComponents(in pickerView: UIPickerView) -> Int {
+		return 1
+	}
+	
+	
+	// UIPickerViewの行の数
+	func pickerView(_ pickerView: UIPickerView,
+	                numberOfRowsInComponent component: Int) -> Int {
+		return categoryArray.count
+	}
+	
+	
+	// UIPickerViewに表示する配列
+	func pickerView(_ pickerView: UIPickerView,
+	                titleForRow row: Int,
+	                forComponent component: Int) -> String? {
+		
+		return categoryArray[row].name
+	}
+	
+	
+	// UIPickerViewが選択されたときの処理
+	func pickerView(_ pickerView: UIPickerView,
+	                didSelectRow row: Int,
+	                inComponent component: Int) {
+
+		self.filterdTaskArray = self.realm.objects(Task.self).filter("categoryId = \(categoryArray[row].id)")
+	}
+	
+	
+	@IBAction func filterButton(_ sender: Any) {
+		self.taskArray = self.filterdTaskArray
+		tableView.reloadData()
+	}
+
+	
+	@IBAction func unfilterButton(_ sender: Any) {
+		self.taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date",
+		                                                        ascending: false)
+		tableView.reloadData()
+	}
+	
+	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		let inputViewController: InputViewController = segue.destination as! InputViewController
 		if segue.identifier == "cellSegue" {
 			let indexPath = self.tableView.indexPathForSelectedRow
-			inputViewController.task = taskArray[indexPath!.row]
+			inputViewController.provTask["id"] = taskArray[indexPath!.row].id
+			inputViewController.provTask["title"] = taskArray[indexPath!.row].title
+			inputViewController.provTask["contents"] = taskArray[indexPath!.row].contents
+			inputViewController.provTask["date"] = taskArray[indexPath!.row].date
+			inputViewController.provTask["categoryId"] = taskArray[indexPath!.row].categoryId
 		} else {
-			let task = Task()
-			task.date = NSDate()
-			
 			if taskArray.count != 0 {
-				task.id = taskArray.max(ofProperty: "id")! + 1
+				inputViewController.provTask["id"] = taskArray.max(ofProperty: "id")! + 1
+			} else {
+				inputViewController.provTask["id"] = 0
 			}
-			
-			inputViewController.task = task
+			inputViewController.provTask["title"] = ""
+			inputViewController.provTask["contents"] = ""
+			inputViewController.provTask["date"] = NSDate()
+			inputViewController.provTask["categoryId"] = 0
 		}
 	}
 	
@@ -124,17 +182,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 		tableView.reloadData()
 	}
 	
-	@IBAction func filterButton(_ sender: Any) {
-		taskArray = try! Realm().objects(Task.self).filter("category = '\(textField.text!)'").sorted(byKeyPath: "date",ascending: false)
-		tableView.reloadData()
-	}
 
-	@IBAction func unfilterButton(_ sender: Any) {
-		taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date",
-		                                                       ascending: false)
-		tableView.reloadData()
-	}
-	
 }
 
 

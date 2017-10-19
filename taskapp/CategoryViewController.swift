@@ -5,34 +5,40 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	@IBOutlet weak var textField: UITextField!
 	@IBOutlet weak var tableView: UITableView!
 	
-	var task: Task!
 	let realm = try! Realm()
-	
+	var provTask: [String : Any] = [:]
 	var categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "id",
-	                                                               ascending: false)
+	                                                               ascending: true)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 		
+		print("========================================================")
+		print(provTask["id"] as! Int)
+		print(provTask["categoryId"] as! Int)
+		print(provTask["title"] as? String)
+		print(provTask["contents"] as? String)
+		print(provTask["date"] as! Date)
+		print("========================================================")
+		
 		tableView.delegate = self
 		tableView.dataSource = self
-
     }
+	
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 	
-	// MARK: UITableViewDataSourceプロトコルのメソッド
-	// データの数（＝セルの数）を返すメソッド
+	
 	func tableView(_ tableView: UITableView,
 	               numberOfRowsInSection section: Int) -> Int {
 		return categoryArray.count
 	}
 	
-	// 各セルの内容を返すメソッド
+
 	func tableView(_ tableView: UITableView,
 	               cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "Cell",
@@ -42,17 +48,13 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 		return cell
 	}
 	
-	// MARK: UITableViewDelegateプロトコルのメソッド
-	// 各セルを選択した時に実行されるメソッド
+
 	func tableView(_ tableView: UITableView,
 	               didSelectRowAt indexPath: IndexPath){
-		
-		try! realm.write {
-			self.task.categoryId = self.categoryArray[indexPath.row].id
-		}
+		performSegue(withIdentifier: "cellSegue", sender: nil)
 	}
 	
-	// セルが削除が可能なことを伝えるメソッド
+
 	func tableView(_ tableView: UITableView,
 	               editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
 		return UITableViewCellEditingStyle.delete
@@ -63,7 +65,30 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	               commit editingStyle: UITableViewCellEditingStyle,
 	               forRowAt indexPath: IndexPath ) {
 		if editingStyle == UITableViewCellEditingStyle.delete {
-
+			
+			let categoryId = self.categoryArray[indexPath.row].id
+			let taskArray = self.realm.objects(Task.self).filter("id = \(categoryId)")
+			
+			try! realm.write {
+				for task in taskArray {
+					task.categoryId = 0
+				}
+				
+				self.realm.delete(self.categoryArray[indexPath.row])
+				tableView.deleteRows(at: [indexPath as IndexPath],
+				                     with: UITableViewRowAnimation.fade)
+			}
+		}
+	}
+	
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "cellSegue" {
+			let indexPath = self.tableView.indexPathForSelectedRow
+			provTask["categoryId"] = categoryArray[indexPath!.row].id
+			
+			let inputViewController: InputViewController = segue.destination as! InputViewController
+			inputViewController.provTask = provTask
 		}
 	}
 	
@@ -78,11 +103,6 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 			self.realm.add(category, update: true)
 		}
 		tableView.reloadData()
-	}
-	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		let inputViewController: InputViewController = segue.destination as! InputViewController
-		inputViewController.task = task
 	}
 
 }

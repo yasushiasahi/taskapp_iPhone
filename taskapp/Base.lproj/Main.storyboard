@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="oc4-Sx-YEa">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,44 +19,24 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="カテゴリー名" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1iL-jI-BDX">
-                                <rect key="frame" x="0.0" y="65" width="255" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1kW-Ak-K30">
-                                <rect key="frame" x="255" y="64" width="70" height="30"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOa-mF-jGq">
+                                <rect key="frame" x="0.0" y="468" width="320" height="100"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="Eyr-xZ-ad9"/>
+                                    <constraint firstAttribute="height" constant="100" id="qcT-t5-0Iv"/>
                                 </constraints>
-                                <state key="normal" title="絞り込み"/>
-                                <connections>
-                                    <action selector="filterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fTF-Hn-Juj"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6vg-jt-SW0">
-                                <rect key="frame" x="325" y="64" width="50" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="d5L-Cr-w1H"/>
-                                </constraints>
-                                <state key="normal" title="解除"/>
-                                <connections>
-                                    <action selector="unfilterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8rp-4D-TVI"/>
-                                </connections>
-                            </button>
+                            </pickerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mhI-Ac-pKH">
-                                <rect key="frame" x="0.0" y="95" width="375" height="572"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="418"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="Rgr-s5-Cye" detailTextLabel="5Gl-KG-q9d" style="IBUITableViewCellStyleSubtitle" id="9Bp-Gp-eKu">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Bp-Gp-eKu" id="Rbo-mk-VQR">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Rgr-s5-Cye">
@@ -78,20 +58,39 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Fc-br-kF0">
+                                <rect key="frame" x="52.5" y="438" width="215" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="215" id="gp7-um-gdK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="選択したカテゴリーで絞り込み"/>
+                                <connections>
+                                    <action selector="filterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CdZ-vc-ifG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brK-7Q-b92">
+                                <rect key="frame" x="282.5" y="438" width="31" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="解除"/>
+                                <connections>
+                                    <action selector="unfilterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DVL-Td-Z9G"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="6vg-jt-SW0" secondAttribute="trailing" id="9Yk-qA-7XO"/>
-                            <constraint firstItem="1kW-Ak-K30" firstAttribute="leading" secondItem="1iL-jI-BDX" secondAttribute="trailing" id="D8y-rE-S1f"/>
-                            <constraint firstItem="1iL-jI-BDX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Fzg-sk-e2t"/>
-                            <constraint firstItem="6vg-jt-SW0" firstAttribute="leading" secondItem="1kW-Ak-K30" secondAttribute="trailing" id="Kzf-6b-WX3"/>
-                            <constraint firstItem="6vg-jt-SW0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="PdC-da-unD"/>
-                            <constraint firstItem="1iL-jI-BDX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="1" id="REy-Hu-Ipl"/>
-                            <constraint firstItem="mhI-Ac-pKH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="f6J-WX-ulp"/>
-                            <constraint firstItem="mhI-Ac-pKH" firstAttribute="top" secondItem="1iL-jI-BDX" secondAttribute="bottom" id="gEG-bt-S71"/>
-                            <constraint firstItem="1kW-Ak-K30" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="mID-Rg-EUQ"/>
-                            <constraint firstAttribute="bottom" secondItem="mhI-Ac-pKH" secondAttribute="bottom" id="rP3-g9-4NX"/>
-                            <constraint firstAttribute="trailing" secondItem="mhI-Ac-pKH" secondAttribute="trailing" id="xw2-hL-LXG"/>
+                            <constraint firstItem="cOa-mF-jGq" firstAttribute="top" secondItem="4Fc-br-kF0" secondAttribute="bottom" id="1Zz-nc-GMm"/>
+                            <constraint firstItem="cOa-mF-jGq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="3S6-Jy-tE4"/>
+                            <constraint firstItem="mhI-Ac-pKH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="6H2-V8-7Ij"/>
+                            <constraint firstItem="cOa-mF-jGq" firstAttribute="top" secondItem="brK-7Q-b92" secondAttribute="bottom" id="AWe-dd-R35"/>
+                            <constraint firstAttribute="trailing" secondItem="cOa-mF-jGq" secondAttribute="trailing" id="Ah7-Km-EQ2"/>
+                            <constraint firstAttribute="trailing" secondItem="mhI-Ac-pKH" secondAttribute="trailing" id="BDf-mu-pf9"/>
+                            <constraint firstItem="4Fc-br-kF0" firstAttribute="top" secondItem="mhI-Ac-pKH" secondAttribute="bottom" id="NVa-6R-Mc3"/>
+                            <constraint firstItem="4Fc-br-kF0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gGB-o0-9wi"/>
+                            <constraint firstItem="mhI-Ac-pKH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hU6-ZY-FhE"/>
+                            <constraint firstItem="brK-7Q-b92" firstAttribute="leading" secondItem="4Fc-br-kF0" secondAttribute="trailing" constant="15" id="rQB-5l-TxA"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="cOa-mF-jGq" secondAttribute="bottom" id="tEq-XM-M4b"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ckc-jq-Shd">
@@ -102,14 +101,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="pickerView" destination="cOa-mF-jGq" id="Ef6-nW-bFV"/>
                         <outlet property="tableView" destination="mhI-Ac-pKH" id="vlC-ze-gRz"/>
-                        <outlet property="textField" destination="1iL-jI-BDX" id="kS3-jl-K7B"/>
                         <segue destination="jLp-OF-9Oc" kind="show" identifier="cellSegue" id="bHp-MH-oCN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1055.2" y="123.68815592203899"/>
+            <point key="canvasLocation" x="1053.75" y="123.59154929577466"/>
         </scene>
         <!--Input View Controller-->
         <scene sceneID="6yX-2b-eEz">
@@ -120,7 +119,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Otz-4i-fOb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6RG-zE-g6a">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="うんこ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8TL-qu-6ak">
@@ -136,7 +135,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NeQ-kG-YT7">
-                                <rect key="frame" x="16" y="94" width="343" height="30"/>
+                                <rect key="frame" x="16" y="94" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -148,7 +147,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QYS-FF-g46">
-                                <rect key="frame" x="16" y="165" width="343" height="120"/>
+                                <rect key="frame" x="16" y="165" width="288" height="120"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="dZd-md-J7M"/>
@@ -158,7 +157,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Wx0-8S-JA2">
-                                <rect key="frame" x="16" y="295" width="343" height="120"/>
+                                <rect key="frame" x="16" y="295" width="288" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="yFz-X2-j0t"/>
                                 </constraints>
@@ -171,7 +170,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="カテゴリーを選択"/>
                                 <connections>
-                                    <segue destination="oD4-LX-zy6" kind="show" id="pbJ-jt-BXU"/>
+                                    <action selector="cutegoryButton:" destination="jLp-OF-9Oc" eventType="touchUpInside" id="jhq-4J-CBp"/>
+                                    <segue destination="oD4-LX-zy6" kind="show" identifier="chooseCategorySegue" id="pbJ-jt-BXU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SRV-3S-coo">
+                                <rect key="frame" x="145" y="486" width="31" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="決定"/>
+                                <connections>
+                                    <action selector="makeButton:" destination="jLp-OF-9Oc" eventType="touchUpInside" id="gAO-c5-fbg"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="createSegue" id="FZ3-9k-DcH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -216,11 +225,11 @@
                         <viewControllerLayoutGuide type="bottom" id="iIH-Mo-kHa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6IE-3W-ZEt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LOk-vb-yen">
-                                <rect key="frame" x="320" y="64" width="55" height="33"/>
+                                <rect key="frame" x="265" y="20" width="55" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="55" id="wt0-WN-Feh"/>
                                 </constraints>
@@ -231,24 +240,24 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="新しいカテゴリーを作成" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QC6-PE-UMz">
-                                <rect key="frame" x="0.0" y="64" width="320" height="30"/>
+                                <rect key="frame" x="0.0" y="20" width="265" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZwI-zO-ay6">
-                                <rect key="frame" x="0.0" y="97" width="375" height="570"/>
+                                <rect key="frame" x="0.0" y="53" width="320" height="515"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="Y9X-xF-4Th">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y9X-xF-4Th" id="bYF-iD-av9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="jLp-OF-9Oc" kind="show" id="CGB-mo-c0r"/>
+                                            <segue destination="jLp-OF-9Oc" kind="show" identifier="cellSegue" id="CGB-mo-c0r"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -297,5 +306,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="CGB-mo-c0r"/>
+        <segue reference="FZ3-9k-DcH"/>
     </inferredMetricsTieBreakers>
 </document>
