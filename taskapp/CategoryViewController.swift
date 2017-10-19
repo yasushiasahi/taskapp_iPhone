@@ -13,15 +13,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-		
-		print("========================================================")
-		print(provTask["id"] as! Int)
-		print(provTask["categoryId"] as! Int)
-		print(provTask["title"] as? String)
-		print(provTask["contents"] as? String)
-		print(provTask["date"] as! Date)
-		print("========================================================")
-		
+
 		tableView.delegate = self
 		tableView.dataSource = self
     }
@@ -45,13 +37,23 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 		                                         for: indexPath as IndexPath)
 		let category = categoryArray[indexPath.row]
 		cell.textLabel?.text = category.name
+		
+		if category.id == provTask["categoryId"] as! Int {
+			cell.backgroundColor = .cyan
+		} else {
+			cell.backgroundColor = .white
+		}
+		
 		return cell
 	}
 	
 
 	func tableView(_ tableView: UITableView,
 	               didSelectRowAt indexPath: IndexPath){
-		performSegue(withIdentifier: "cellSegue", sender: nil)
+		let indexPath = self.tableView.indexPathForSelectedRow
+		provTask["categoryId"] = categoryArray[indexPath!.row].id
+		print("[categoryArray[indexPath!.row].id] --> \(categoryArray[indexPath!.row].id)")
+		performSegue(withIdentifier: "inputSegue", sender: nil)
 	}
 	
 
@@ -59,6 +61,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	               editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
 		return UITableViewCellEditingStyle.delete
 	}
+	
 	
 	// Delete ボタンが押された時に呼ばれるメソッド
 	func tableView(_ tableView: UITableView,
@@ -83,13 +86,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == "cellSegue" {
-			let indexPath = self.tableView.indexPathForSelectedRow
-			provTask["categoryId"] = categoryArray[indexPath!.row].id
-			
-			let inputViewController: InputViewController = segue.destination as! InputViewController
-			inputViewController.provTask = provTask
-		}
+		let inputViewController: InputViewController = segue.destination as! InputViewController
+		inputViewController.provTask = provTask
 	}
 	
 	

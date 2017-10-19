@@ -256,9 +256,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="jLp-OF-9Oc" kind="show" identifier="cellSegue" id="CGB-mo-c0r"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -279,9 +276,11 @@
                     <connections>
                         <outlet property="tableView" destination="ZwI-zO-ay6" id="wg9-hh-M9u"/>
                         <outlet property="textField" destination="QC6-PE-UMz" id="ing-64-QUM"/>
+                        <segue destination="Efv-a3-sgx" kind="unwind" identifier="inputSegue" unwindAction="unwind:" id="K5Y-IV-EcH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NYw-rU-966" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Efv-a3-sgx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2628" y="124.58770614692655"/>
         </scene>
@@ -305,7 +304,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="CGB-mo-c0r"/>
+        <segue reference="iuD-Kp-DAM"/>
         <segue reference="FZ3-9k-DcH"/>
     </inferredMetricsTieBreakers>
 </document>

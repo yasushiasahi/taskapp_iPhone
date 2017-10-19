@@ -15,22 +15,10 @@ class InputViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		
 		// 背景をタップしたらdismissKeyboardメソッドを呼ぶように設定する
 		let _: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
 		
-		print("========================================================")
-		print(provTask["id"] as! Int)
-		print(provTask["categoryId"] as! Int)
-		print(provTask["title"] as? String)
-		print(provTask["contents"] as? String)
-		print(provTask["date"] as! Date)
-		print("========================================================")
-		
-		categoryLabel.text = getCategoryName(categoryId: provTask["categoryId"] as! Int)
-		titleTextField.text = provTask["title"] as? String
-		contentsTextView.text = provTask["contents"] as? String
-		datePicker.date = provTask["date"] as! Date
+		setView()
     }
 
 	
@@ -49,7 +37,7 @@ class InputViewController: UIViewController {
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "createSegue" {
 			let task: Task = Task()
-
+			
 			task.id = provTask["id"] as! Int
 			task.categoryId = provTask["categoryId"] as! Int
 			
@@ -60,6 +48,7 @@ class InputViewController: UIViewController {
 			try! realm.write {
 				realm.add(task, update: true)
 			}
+			
 			setNotification(task: task)
 		} else if segue.identifier == "chooseCategorySegue" {
 			provTask["title"] = self.titleTextField.text!
@@ -71,12 +60,16 @@ class InputViewController: UIViewController {
 		}
 	}
 	
+	
 	@IBAction func cutegoryButton(_ sender: Any) {
-		performSegue(withIdentifier: "chooseCategorySegue", sender: nil)
 	}
 	
 	@IBAction func makeButton(_ sender: Any) {
-		performSegue(withIdentifier: "createSegue", sender: nil)
+	}
+	
+	
+	@IBAction func unwind(_ segue: UIStoryboardSegue) {
+		setView()
 	}
 	
 	
@@ -116,6 +109,25 @@ class InputViewController: UIViewController {
 	
 	func getCategoryName(categoryId: Int) -> String {
 		return self.realm.objects(Category.self).filter("id = \(categoryId)")[0].name
+	}
+	
+	
+	func setView() {
+		categoryLabel.text = getCategoryName(categoryId: provTask["categoryId"] as! Int)
+		titleTextField.text = provTask["title"] as? String
+		contentsTextView.text = provTask["contents"] as? String
+		datePicker.date = provTask["date"] as! Date
+	}
+	
+	
+	func printInfo() {
+		print("========================================================")
+		print(provTask["id"] as! Int)
+		print(provTask["categoryId"] as! Int)
+		print(provTask["title"] as? String)
+		print(provTask["contents"] as? String)
+		print(provTask["date"] as! Date)
+		print("========================================================")
 	}
 	
 }
