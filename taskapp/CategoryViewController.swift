@@ -81,6 +81,10 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 				tableView.deleteRows(at: [indexPath as IndexPath],
 				                     with: UITableViewRowAnimation.fade)
 			}
+			
+			if categoryId == provTask["categoryId"] as! Int {
+				provTask["categoryId"] = 0
+			}
 		}
 	}
 	
