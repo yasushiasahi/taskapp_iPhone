@@ -23,7 +23,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-	
+
 	
 	func tableView(_ tableView: UITableView,
 	               numberOfRowsInSection section: Int) -> Int {
@@ -56,38 +56,6 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 		performSegue(withIdentifier: "inputSegue", sender: nil)
 	}
 	
-
-	func tableView(_ tableView: UITableView,
-	               editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-		return UITableViewCellEditingStyle.delete
-	}
-	
-	
-	// Delete ボタンが押された時に呼ばれるメソッド
-	func tableView(_ tableView: UITableView,
-	               commit editingStyle: UITableViewCellEditingStyle,
-	               forRowAt indexPath: IndexPath ) {
-		if editingStyle == UITableViewCellEditingStyle.delete {
-			
-			let categoryId = self.categoryArray[indexPath.row].id
-			let taskArray = self.realm.objects(Task.self).filter("id = \(categoryId)")
-			
-			try! realm.write {
-				for task in taskArray {
-					task.categoryId = 0
-				}
-				
-				self.realm.delete(self.categoryArray[indexPath.row])
-				tableView.deleteRows(at: [indexPath as IndexPath],
-				                     with: UITableViewRowAnimation.fade)
-			}
-			
-			if categoryId == provTask["categoryId"] as! Int {
-				provTask["categoryId"] = 0
-			}
-		}
-	}
-	
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		let inputViewController: InputViewController = segue.destination as! InputViewController
@@ -106,5 +74,6 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 		}
 		tableView.reloadData()
 	}
+	
 
 }

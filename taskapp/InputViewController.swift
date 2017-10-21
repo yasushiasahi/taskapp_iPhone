@@ -16,7 +16,8 @@ class InputViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		// 背景をタップしたらdismissKeyboardメソッドを呼ぶように設定する
-		let _: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+		let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+		view.addGestureRecognizer(gestureRecognizer)
 		
 		setView()
     }
@@ -35,22 +36,7 @@ class InputViewController: UIViewController {
 	
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == "createSegue" {
-			let task: Task = Task()
-			
-			task.id = provTask["id"] as! Int
-			task.categoryId = provTask["categoryId"] as! Int
-			
-			task.title = self.titleTextField.text!
-			task.contents = self.contentsTextView.text
-			task.date = self.datePicker.date as NSDate
-			
-			try! realm.write {
-				realm.add(task, update: true)
-			}
-			
-			setNotification(task: task)
-		} else if segue.identifier == "chooseCategorySegue" {
+		if segue.identifier == "chooseCategorySegue" {
 			provTask["title"] = self.titleTextField.text!
 			provTask["contents"] = self.contentsTextView.text
 			provTask["date"] = self.datePicker.date as NSDate
@@ -65,6 +51,20 @@ class InputViewController: UIViewController {
 	}
 	
 	@IBAction func makeButton(_ sender: Any) {
+		let task: Task = Task()
+		
+		task.id = provTask["id"] as! Int
+		task.categoryId = provTask["categoryId"] as! Int
+		
+		task.title = self.titleTextField.text!
+		task.contents = self.contentsTextView.text
+		task.date = self.datePicker.date as NSDate
+		
+		try! realm.write {
+			realm.add(task, update: true)
+		}
+		
+		setNotification(task: task)
 	}
 	
 	

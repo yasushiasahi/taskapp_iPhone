@@ -180,7 +180,7 @@
                                 <state key="normal" title="決定"/>
                                 <connections>
                                     <action selector="makeButton:" destination="jLp-OF-9Oc" eventType="touchUpInside" id="gAO-c5-fbg"/>
-                                    <segue destination="BYZ-38-t0r" kind="show" identifier="createSegue" id="FZ3-9k-DcH"/>
+                                    <segue destination="bsd-IE-akb" kind="unwind" unwindAction="unwind:" id="J4O-ME-1ll"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -213,6 +213,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Iev-41-UpC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="bsd-IE-akb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1852" y="127.28635682158921"/>
         </scene>
@@ -305,6 +306,5 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="iuD-Kp-DAM"/>
-        <segue reference="FZ3-9k-DcH"/>
     </inferredMetricsTieBreakers>
 </document>
